@@ -1,4 +1,4 @@
-#CODE FOR MULTIPLE FILES USING BASH
+##CODE FOR MULTIPLE FILES USING BASH
 #!/bin/bash
 #$ -cwd           # Set the working directory for the job to the current directory
 #$ -pe smp 1      # Request 1 cores

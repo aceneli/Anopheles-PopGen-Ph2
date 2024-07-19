@@ -1,1 +1,87 @@
+import polars as pl
+import numpy as np
+from matplotlib import pyplot as plt
+import pandas as pd
+import seaborn as sns
 
+#read in file
+df = pl.read_csv('/data3/scratch/bty155/Phase2/Allele_Frequency/AF_plots/1.csv', ignore_errors = True)
+
+print(df)
+
+#convert NA values to float values in readiness for sum ups
+df = df.with_columns([
+    pl.col("AF4").cast(pl.Utf8()).replace("NA", "0").cast(pl.Float64()),
+])
+
+print(df)
+
+
+#Initiate Lazy Dataframe df1
+df1 = pl.LazyFrame(df)
+
+ctx = pl.SQLContext(my_table=df1, eager_execution=True)
+
+result = ctx.execute(
+    """
+    CREATE TABLE new_FREQ
+    AS
+    SELECT * FROM my_table WHERE AF1 > 0 and AF2 > 0 and AF3 > 0 and AF4=0
+"""
+)
+
+print(ctx.execute("SELECT * FROM new_FREQ"))
+
+
+# TRIALLELIC SITE ANALYSIS
+# COUNT NUMBER OF POPULATED COLUMNS POPULATED WITH THREE CELLS ON EACH ROW OF THE DATAFRAME
+# Code for all values in Columns 1, 2 and 4 (excluding column 3)
+result = ctx.execute(
+    """
+    CREATE TABLE new_FREQ
+    AS
+    SELECT * FROM my_table WHERE AF1 > 0 and AF2 > 0 and AF4 > 0 and AF3=0
+"""
+)
+
+print(ctx.execute("SELECT * FROM new_FREQ"))
+
+
+# Code for all values in Columns 1, 3 and 4 (excluding column 2)
+result = ctx.execute(
+    """
+    CREATE TABLE new_FREQ
+    AS
+    SELECT * FROM my_table WHERE AF1 > 0 and AF3 > 0 and AF4 > 0 and AF2=0
+"""
+)
+
+print(ctx.execute("SELECT * FROM new_FREQ"))
+
+
+# Code for all values in Columns 2, 3 and 4 (excluding column 1)
+result = ctx.execute(
+    """
+    CREATE TABLE new_FREQ
+    AS
+    SELECT * FROM my_table WHERE AF2 > 0 and AF3 > 0 and AF4 > 0 and AF1=0
+"""
+)
+
+print(ctx.execute("SELECT * FROM new_FREQ"))
+
+# TETRALLELIC SITE ANALYSIS
+# COUNT NUMBER OF POPULATED COLUMNS POPULATED WITH ALL FOUR CELLS ON EACH ROW OF THE DATAFRAME
+# Code for all values in Columns 1, 2, 3 and 4 
+
+ctx = pl.SQLContext(my_table=df1, eager_execution=True)
+
+result = ctx.execute(
+    """
+    CREATE TABLE new_FREQ
+    AS
+    SELECT * FROM my_table WHERE AF1 > 0 and AF2 > 0 and AF3 > 0 and AF4 > 0
+"""
+)
+
+print(ctx.execute("SELECT * FROM new_FREQ"))

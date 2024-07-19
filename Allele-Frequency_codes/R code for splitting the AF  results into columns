@@ -50,3 +50,59 @@ colSums(frq_data[, c("AF1", "AF2","AF3", "AF4")])
 
 
 write.csv(frq_data, $OUT, row.names = FALSE, quote = FALSE)
+
+##################################################################################
+ALTERNATIVE CODE
+##################################################################
+
+#!/bin/bash
+#$ -cwd           # Set the working directory for the job to the current directory
+#$ -pe smp 1	  # Request 1 core
+#$ -l h_rt=240:0:0  # Request 240 hour runtime
+#$ -l h_vmem=64G   # Request 128GB RAM
+#$ -j y              # Combine the standard output and standard error stream
+#S -N CHROM_3L       # Give a specific name to the job
+#$ -o log_file/      # output log of each job
+
+
+
+# Command section
+module load gcc/12.1.0 
+module load R/4.2.2
+unload gcc
+
+
+# Stop script if error occurs
+set -e
+
+
+FRQ=/data3/scratch/bty155/Phase2/Allele_Frequency/Mayotte.frq
+
+OUT=/data3/scratch/bty155/Phase2/Allele_Frequency/AF_plots/Mayotte
+
+
+#CODE
+Rscript -e 
+'library(readr)
+library(tidyr)
+library(stringr)
+
+#read file into dataframe
+frq_data <- read_delim($FRQ, delim ='\t')
+
+#Split the FREQ (<chr>) column by the tab character
+frq_data<- separate(frq_data, '{FREQ}', into = c("AF1", "AF2","AF3", "AF4"), sep = "\t")
+
+
+# Convert the column entries from character to numeric
+frq_data$AF1 <- as.numeric(frq_data$AF1)
+frq_data$AF2 <- as.numeric(frq_data$AF2)
+frq_data$AF3 <- as.numeric(frq_data$AF3)
+frq_data$AF4 <- as.numeric(frq_data$AF4)
+
+#print column values
+colSums(frq_data[, c("AF1", "AF2","AF3", "AF4")])
+
+
+write.csv(frq_data, $OUT, row.names = FALSE, quote = FALSE)'
+

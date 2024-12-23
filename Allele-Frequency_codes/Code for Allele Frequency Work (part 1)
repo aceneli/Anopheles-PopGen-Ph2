@@ -1,3 +1,6 @@
+########################################################
+##CODE FOR COMPUTING THE ALLELE FREQUENCIES (OUTPUT FILE FORMAT: .FRQ)
+########################################################
 ##CODE FOR MULTIPLE FILES USING BASH
 #!/bin/bash
 #$ -cwd           # Set the working directory for the job to the current directory

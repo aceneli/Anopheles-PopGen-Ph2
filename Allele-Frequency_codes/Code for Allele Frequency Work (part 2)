@@ -5,51 +5,99 @@
 #$ -cwd           # Set the working directory for the job to the current directory
 #$ -pe smp 2	  # Request 2 cores
 #$ -l h_rt=240:0:0  # Request 240 hour runtime
-#$ -l h_vmem=64G   # Request 128GB RAM
+#$ -l h_vmem=16G   # Request 32GB RAM
 #$ -j y              # Combine the standard output and standard error stream
 #$ -t 1-12           # No of text files for processing
-#S -N CHROM_3L       # Give a specific name to the job
+#S -N CHROM_3R       # Give a specific name to the job
+#$ -o log_file/      # output log of each job
+
+
+# Command section
+module load gcc/12.1.0 
+module load R/4.2.2
+
+
+# Stop script if error occurs
+set -e
+
+LIST=/data3/scratch/bty155/Phase2/Chrom_3R/Allele_Frequency_3R/2024Dec23_AF_Results/list_of_files.txt 
+
+FRQ=//data3/scratch/bty155/Phase2/Chrom_3R/Allele_Frequency_3R/2024Dec23_AF_Results/$(sed -n "${SGE_TASK_ID}p" $LIST)  
+
+OUT=/data3/scratch/bty155/Phase2/Chrom_3R/Allele_Frequency_3R/2024Dec23_AF_ColumnSums_3R/AF_plots/${SGE_TASK__ID}.csv
+
+
+# R CODE
+
+Rscript - <<EOF
+library(readr)
+library(tidyr)
+library(stringr)
+
+# Read file into dataframe
+frq_data <- read_delim("$FRQ", delim ='\t')
+
+# Split the FREQ (<chr>) column by the tab character
+frq_data <- separate(frq_data, '{FREQ}', into = c("AF1", "AF2","AF3", "AF4"), sep = "\t")
+
+# Convert the column entries from character to numeric
+frq_data[, c("AF1", "AF2", "AF3", "AF4")] <- lapply(frq_data[, c("AF1", "AF2", "AF3", "AF4")], as.numeric)
+
+# Print column sums
+cat("Column sums:\n")
+print(colSums(frq_data[, c("AF1", "AF2", "AF3", "AF4")]))
+
+# Write output to CSV
+write.csv(frq_data, "$OUT", row.names = FALSE, quote = FALSE)
+EOF
+
+###########################################################################
+#SINGLE FILE CODE
+###########################################################################
+#!/bin/bash
+#$ -cwd           # Set the working directory for the job to the current directory
+#$ -pe smp 1	  # Request 1 core
+#$ -l h_rt=240:0:0  # Request 240 hour runtime
+#$ -l h_vmem=32G   # Request 32GB RAM
+#$ -j y              # Combine the standard output and standard error stream
+#S -N CHROM_3R       # Give a specific name to the job
 #$ -o log_file/      # output log of each job
 
 
 
 # Command section
-module load gcc/10.2.0
-module load R/4.2.2-gcc10 
+module load gcc/12.1.0 
+module load R/4.2.2
 
 # Stop script if error occurs
 set -e
 
 
+FRQ=/data3/scratch/bty155/Phase2/Chrom_3R/Allele_Frequency_3R/2024Dec23_AF_Results/MY.frq
 
-LIST=/data3/scratch/bty155/Phase2/Allele_Frequency/list_of_files.txt 
-
-FRQ=/data3/scratch/bty155/Phase2/Allele_Frequency/$(sed -n "${SGE_TASK_ID}p" $LIST)  
-
-OUT=/data3/scratch/bty155/Phase2/Allele_Frequency/AF_plots/${SGE_TASK__ID}
+OUT=/data3/scratch/bty155/Phase2/Chrom_3R/Allele_Frequency_3R/2024Dec23_AF_ColumnSums_3R/MY.csv
 
 
-#CODE
-
+# R code
+Rscript - <<EOF
 library(readr)
 library(tidyr)
 library(stringr)
 
-#read file into dataframe
-frq_data <- read_delim($FRQ, delim ='\t')
+# Read file into dataframe
+frq_data <- read_delim("$FRQ", delim ='\t')
 
 # Split the FREQ (<chr>) column by the tab character
-frq_data<- separate(frq_data, '{FREQ}', into = c("AF1", "AF2","AF3", "AF4"), sep = "\t")
-
+frq_data <- separate(frq_data, '{FREQ}', into = c("AF1", "AF2","AF3", "AF4"), sep = "\t")
 
 # Convert the column entries from character to numeric
-frq_data$AF1 <- as.numeric(frq_data$AF1)
-frq_data$AF2 <- as.numeric(frq_data$AF2)
-frq_data$AF3 <- as.numeric(frq_data$AF3)
-frq_data$AF4 <- as.numeric(frq_data$AF4)
+frq_data[, c("AF1", "AF2", "AF3", "AF4")] <- lapply(frq_data[, c("AF1", "AF2", "AF3", "AF4")], as.numeric)
 
-#print column values
-colSums(frq_data[, c("AF1", "AF2","AF3", "AF4")])
+# Print column sums
+cat("Column sums:\n")
+print(colSums(frq_data[, c("AF1", "AF2", "AF3", "AF4")]))
 
+# Write output to CSV
+write.csv(frq_data, "$OUT", row.names = FALSE, quote = FALSE)
+EOF
 
-write.csv(frq_data, $OUT, row.names = FALSE, quote = FALSE)

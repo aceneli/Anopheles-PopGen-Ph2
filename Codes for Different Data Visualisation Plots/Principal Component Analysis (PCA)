@@ -1,1 +1,56 @@
+# PLOT TYPE 1
+import necessary libraries
+import pandas as pd
+import numpy as np
+from numpy import array
+from numpy import mean
+from numpy import cov
+from numpy.linalg import eig
+import matplotlib.pyplot as plt
 
+
+# Read in the file
+
+df = pd.read_csv('/data/home/bty155/ondemand/data/Phase_2/MosquitoPh2_join.csv')
+
+display(df)
+
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(12,12))
+sns.scatterplot(data=df,x="PC1",y="PC2",hue="population",s=50)
+
+# Set label font sizes for x-axis and y-axis 
+plt.xlabel("PC1", fontsize=14)  # Adjust the value as needed
+plt.ylabel("PC2", fontsize=14)  # Adjust the value as needed
+
+# Add labels and title
+plt.title("PCA Plot Coloured by Population and Species", fontsize=16)
+
+# Add legend
+plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
+
+
+
+#PLOT TYPE 2 (WITH HOVER FUNCTION)
+#import matplotlib.pyplot as plt
+import plotly.express as px
+
+# Create a scatter plot with hover labels
+fig = px.scatter(df, x="PC1", y="PC2", color="population",
+                 hover_data=["population"])
+
+# Customize the hover label
+fig.update_traces(hovertemplate="<b>%{text}</b>")
+
+fig.show()
+
+
+#PLOT TYPE 3
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(10,10))
+sns.scatterplot(data=df,x="PC3",y="PC4",hue="population",s=50)

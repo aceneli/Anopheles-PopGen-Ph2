@@ -1,0 +1,49 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+#read in file
+data = pd.read_table('/data/home/bty155/ondemand/data/Phase_2/Tetrallelic_sites_21Jun.txt')
+
+print(data)
+
+#read table values into dataframe
+df = pd.DataFrame(data, columns=['Country', 'Tetrallelic sites'])
+
+
+CREATE PLOT WITH BARS OF DIFFERENT COLOURS
+# Defining the plotsize
+plt.figure(figsize=(8, 6))
+
+# Defining the x-axis, the y-axis and the data
+# from where the values are to be taken
+plots = sns.barplot(x="Country", y="Tetrallelic sites", data=df)
+
+# Setting the x-acis label and its size
+plt.xlabel("Population", size=15)
+
+# Setting the y-axis label and its size
+plt.ylabel("Tetrallelic site numbers", size=15)
+
+# Finally plotting the graph
+plt.show()
+
+
+CREATE PLOT WITH BARS OF ONE COLOUR
+# Defining the plotsize
+plt.figure(figsize=(8, 6))
+
+# Defining the x-axis, the y-axis and the data
+# from where the values are to be taken
+plots = sns.barplot(x="Country", y="Tetrallelic sites", data=df, color='steelblue')
+
+# Setting the x-acis label and its size
+plt.xlabel("Population", size=15)
+
+# Setting the y-axis label and its size
+plt.ylabel("Site numbers", size=15)
+
+# Finally plotting the graph
+plt.show()
+plt.show()

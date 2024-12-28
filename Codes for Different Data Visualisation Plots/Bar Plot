@@ -1,0 +1,69 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+#read in file
+data = pd.read_table('/data/home/bty155/ondemand/data/Phase_2/Triallelic_sites_21Jun.txt')
+
+#print table
+print(data)
+
+#read table values into dataframe i.e. read summary allele frequency values for different countries into dataframe
+df = pd.DataFrame(data, columns=['Country', 'Triallelic sites'])
+
+PLOT (BARS IN DIFFERENT COLOURS)
+# Defining the plotsize
+plt.figure(figsize=(8, 6))
+
+# Defining the x-axis, the y-axis and the data
+# from where the values are to be taken
+plots = sns.barplot(x="Country", y="Triallelic sites", data=df)
+
+# Setting the x-acis label and its size
+plt.xlabel("Population", size=15)
+
+# Setting the y-axis label and its size
+plt.ylabel("Triallelic site numbers", size=15)
+
+
+# Finally plotting the graph
+plt.show()
+
+PLOT (BARS IN ONE COLOUR)
+# Defining the plotsize
+plt.figure(figsize=(10, 10))
+
+# Defining the x-axis, the y-axis and the data
+# from where the values are to be taken
+plots = sns.barplot(x="Country", y="Triallelic sites", data=df, color='steelblue')
+
+
+# Iterating over the bars one-by-one
+for bar in plots.patches:
+  
+  # Using Matplotlib's annotate function and
+  # passing the coordinates where the annotation shall be done
+  # x-coordinate: bar.get_x() + bar.get_width() / 2
+  # y-coordinate: bar.get_height()
+  # free space to be left to make graph pleasing: (0, 8)
+  # ha and va stand for the horizontal and vertical alignment
+  plots.annotate(format(bar.get_height(),'.0f'),  
+                   (bar.get_x() + bar.get_width() / 2, 
+                    bar.get_height()), ha='center', va='center',
+                   size=8, xytext=(0, 8),
+                   textcoords='offset points')
+
+# Setting the label for x-axis
+plt.xlabel("Population", size=13)
+
+# Setting the label for y-axis
+plt.ylabel("Site numbers", size=13)
+
+# Setting the title for the graph
+plt.title("Triallelic Site Allele Frequencies")
+
+# Finally showing the plot
+plt.show()
+
+

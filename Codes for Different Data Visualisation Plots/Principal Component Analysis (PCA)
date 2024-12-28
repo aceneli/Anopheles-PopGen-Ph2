@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 # Read in the file
 
-df = pd.read_csv('/data/home/bty155/ondemand/data/Phase_2/MosquitoPh2_join.csv')
+df = pd.read_csv(csv file path)
 
 display(df)
 

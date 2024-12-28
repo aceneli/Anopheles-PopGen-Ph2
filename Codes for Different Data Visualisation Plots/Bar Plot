@@ -1,1 +1,85 @@
+import polars as pl
+import numpy as np
+from matplotlib import pyplot as plt
+import pandas as pd
+import seaborn as sns
 
+#read in file
+df = pl.read_csv('/data/SBBS-FumagalliLab/mosquito_gan/DistanceMatrix_Ph2/2024-06-13-Scratch/Allele_Frequency/AF_plots/1.csv', ignore_errors = True)
+
+#print dataframe
+print(df)
+
+
+#convert NA values in dataframe to O values (to enable numerical processing)
+df = df.with_columns([
+    pl.col("AF4").cast(pl.Utf8()).replace("NA", "0").cast(pl.Float64()),
+])
+
+print(df)
+
+TRIALLELIC SITES ANALYSES
+# Count number of populated cells with only three frequency values in the three cells in a row.
+#Initiate lazy dataframe df1
+df1 = pl.LazyFrame(df)
+
+ctx = pl.SQLContext(my_table=df1, eager_execution=True)
+
+# Combination 1: frequency values in cells of column 1, 2 and 3 only.
+result = ctx.execute(
+    """
+    CREATE TABLE new_FREQ
+    AS
+    SELECT * FROM my_table WHERE AF1 > 0 and AF2 > 0 and AF3 > 0 and AF4=0
+"""
+)
+
+print(ctx.execute("SELECT * FROM new_FREQ"))
+
+# Combination 2: frequency values in cells of column 1, 2 and 4 only.
+result = ctx.execute(
+    """
+    CREATE TABLE new_FREQ
+    AS
+    SELECT * FROM my_table WHERE AF1 > 0 and AF2 > 0 and AF4 > 0 and AF3=0
+"""
+)
+print(ctx.execute("SELECT * FROM new_FREQ"))
+
+# Combination 3: frequency values in cells of column 1, 3 and 4 only.
+result = ctx.execute(
+    """
+    CREATE TABLE new_FREQ
+    AS
+    SELECT * FROM my_table WHERE AF1 > 0 and AF3 > 0 and AF4 > 0 and AF2=0
+"""
+)
+
+print(ctx.execute("SELECT * FROM new_FREQ"))
+
+# Combination 4: frequency values in cells of column 2, 3 and 4 only.
+result = ctx.execute(
+    """
+    CREATE TABLE new_FREQ
+    AS
+    SELECT * FROM my_table WHERE AF2 > 0 and AF3 > 0 and AF4 > 0 and AF1=0
+"""
+)
+
+print(ctx.execute("SELECT * FROM new_FREQ"))
+
+
+TETRALLELIC SITES ANALYSES
+# Count number of populated cells with frequency values in all four cells in a row.
+
+ctx = pl.SQLContext(my_table=df1, eager_execution=True)
+
+result = ctx.execute(
+    """
+    CREATE TABLE new_FREQ
+    AS
+    SELECT * FROM my_table WHERE AF1 > 0 and AF2 > 0 and AF3 > 0 and AF4 > 0
+"""
+)
+
+print(ctx.execute("SELECT * FROM new_FREQ"))

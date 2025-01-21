@@ -1,0 +1,105 @@
+rm(list = ls())
+
+library(tidyverse)
+#/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/BF_Ac_ND.windowed.pi
+#Read data into table
+pi.1 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/1_ND.windowed.pi",header=T)
+pi.2 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/BF_Ac_ND.windowed.pi",header=T)
+pi.2b <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/BF_Ag_ND.windowed.pi",header=T)
+pi.3 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/3_ND.windowed.pi",header=T)
+pi.4 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/4_ND.windowed.pi",header=T)
+pi.5 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/5_ND.windowed.pi",header=T)
+pi.6 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/6_ND.windowed.pi",header=T)
+pi.7 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/7_ND.windowed.pi",header=T)
+pi.8 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/8_ND.windowed.pi",header=T)
+pi.9 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/GH_Ac_ND.windowed.pi",header=T)
+pi.9b <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/GH_Ag_ND.windowed.pi",header=T)
+pi.10 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/GN_Ac_ND.windowed.pi",header=T)
+pi.10b <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/GN_Ag_ND.windowed.pi",header=T)
+pi.11 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/11_ND.windowed.pi",header=T)
+pi.12 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/12_ND.windowed.pi",header=T)
+pi.13 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/13_ND.windowed.pi",header=T)
+
+
+#Add extra column with country name
+pi.1 <- cbind(pi.1, country = "AOg")
+pi.2 <- cbind(pi.2, country = "BFc")
+pi.2b <- cbind(pi.2b, country = "BFg")
+pi.3 <- cbind(pi.3, country = "CMg")
+pi.4 <- cbind(pi.4, country = "CIc")
+pi.5 <- cbind(pi.5, country = "EQg")
+pi.6 <- cbind(pi.6, country = "GAg")
+pi.7 <- cbind(pi.7, country = "GMgc")
+pi.8 <- cbind(pi.8, country = "GWgc")
+pi.9 <- cbind(pi.9, country = "GHc")
+pi.9b <- cbind(pi.9b, country = "GHg")
+pi.10 <- cbind(pi.10, country = "GNc")
+pi.10b <- cbind(pi.10b, country = "GNg")
+pi.11 <- cbind(pi.11, country = "KEgc")
+pi.12 <- cbind(pi.12, country = "UGg")
+pi.13 <- cbind(pi.13, country = "MYg")
+
+all_data<- rbind(pi.1, pi.2, pi.2b, pi.3, pi.4, pi.5, pi.6, pi.7, pi.8, pi.9, pi.9b, pi.10, pi.10b, pi.11, pi.12, pi.13)
+
+# Different outline color
+library(ggplot2)
+
+ch <- ggplot(all_data,aes(x=country,y=PI,color=country))+
+  geom_boxplot(outlier.color="black")
+
+ch
+
+#no labels on x-axis
+ch <- ggplot(all_data, aes(x=country, y=PI, color=country)) +
+  geom_boxplot(outlier.color="black") +
+  labs(
+    title = "Nucleotide Diversity",
+    x = "",
+    y = "Diversity"
+    
+  ) +
+  theme(axis.text.x = element_blank())
+
+ch
+
+
+
+
+
+
+
+# Create the boxplot with custom axis labels and title
+ch <- ggplot(all_data, aes(x=country, y=PI, color=country)) +
+  geom_boxplot(outlier.color="black") +
+  labs(
+    title = "Nucleotide Diversity",
+    x = "Country",
+    y = "Diversity"
+  ) +
+  theme_minimal() # Optional: use a minimal theme for a cleaner look
+
+# Add custom text annotation (example)
+ch <- ch + annotate("text", x = 2, y = max(all_data$PI) * 0.9, label = "Note: Outliers are shown in black", size = 0.5, color = "white")
+
+# Print the plot
+print(ch)
+
+
+
+
+
+
+############################################################################
+boxplot(PI ~ country, data = all_data, ylab = "Diversity")
+
+boxplot(PI ~ country, data = all_data, 
+        ylab = "Diversity",
+        main = "Nucleotide Diversity Plot",
+        col = rainbow(length(unique(all_data$country))),
+        notch = FALSE,
+        outline = TRUE)
+
+
+
+
+

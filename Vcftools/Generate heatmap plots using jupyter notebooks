@@ -1,1 +1,56 @@
+import polars as pl
+import numpy as np
+from matplotlib import pyplot as plt
+import pandas as pd
+import seaborn as sns
 
+
+#read in file
+df = pl.read_csv('/data3/scratch/bty155/Phase2/Chrom_3R/Allele_Frequency_3R/2024Dec23_AF_ColumnSums_3R/1.csv', ignore_errors = True)
+
+print(df)
+
+
+#convert NA values in cells to '0'
+df = df.with_columns([
+    pl.col("AF4").cast(pl.Utf8()).replace("NA", "0").cast(pl.Float64()),
+])
+
+print(df)
+
+
+# Drop multiple columns
+df_reduced = df.drop(['CHROM', 'POS','N_ALLELES','N_CHR'])
+
+
+#Create heatmap plot
+sns.heatmap(df_reduced, cmap="plasma")
+
+
+# Apply log base 10 transformation 
+# Adding a small constant to avoid log(0) which is undefined
+epsilon = 1e-10
+log10_df = df_reduced.select([
+    (pl.col(column) + epsilon).log(base=10).alias(f"{column}_log10")
+    for column in df_reduced.columns
+])
+
+
+#Create heatmap plot with log10 values
+sns.heatmap(df_reduced, cmap="plasma")
+
+
+# Create a heatmap using only the selected columns
+ax = sns.heatmap(log10_df, cmap="plasma")
+
+# Set x-tick labels to the column names
+#ax.set_xticklabels(df_reduced.columns)
+
+# Set the x and y axis labels
+ax.set_xlabel("Allele Frequencies")
+ax.set_ylabel("Multiallelic Sites on Chromatid 3L")
+
+# Optionally set a title for the heatmap
+ax.set_title("Minor Allele Frequency Sites Heatmap for Cote D'Ivoire_3L")
+
+plt.show()

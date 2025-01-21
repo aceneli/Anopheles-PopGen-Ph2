@@ -5,7 +5,7 @@ import numpy as np
 
 
 #Load dataset
-df = pd.read_table('pathway/dist_matrix.mdist')
+df = pd.read_table(file path to 'dist_matrix.mdist')
 
 
 # Create a default heatmap
@@ -19,10 +19,10 @@ import matplotlib.pyplot as plt
 
 
 # Read the .mdist.id file to get sample IDs
-sample_ids = pd.read_table("/data3/scratch/bty155/Phase2/Genetic_Distances/dist_matrix_mdist.txt", header=None)[0]
+sample_ids = pd.read_table(file path to "dist_matrix_mdist.txt", header=None)[0]
 
 # Read the .mdist file
-dist_matrix = pd.read_table("/data/SBBS-FumagalliLab/mosquito_gan/DistanceMatrix_Ph2/2024-02-24-MDSPlot/dist_matrix.mdist", header=None, delim_whitespace=True)
+dist_matrix = pd.read_table(file path to "dist_matrix.mdist", header=None, delim_whitespace=True)
 
 # Create a heatmap
 plt.figure(figsize=(100, 100))

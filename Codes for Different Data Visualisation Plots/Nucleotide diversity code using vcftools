@@ -1,0 +1,68 @@
+## FOR ONE POPULATION
+#!/bin/bash
+#$ -cwd           # Set the working directory for the job to the current directory
+#$ -pe smp 2	  # Request 2 cores
+#$ -l h_rt=240:0:0  # Request 240 hour runtime
+#$ -l h_vmem=64G   # Request 128GB RAM
+#$ -j y              # Combine the standard output and standard error stream
+#S -N CHROM_3L       # Give a specific name to the job
+#$ -o log_file/      # output log of each job
+
+
+
+# Command section
+module load gcc/8.2.0
+module load vcftools/0.1.16
+
+
+# Stop script if error occurs
+set -e
+
+
+KEEP=/data3/scratch/bty155/Phase2/Fst/Acoluzzii_txt/Angola_Ac.txt
+
+VCF=/data3/scratch/bty155/Phase2/ag1000g.phase2.ar1.pass.3L.vcf.gz                         
+
+OUT=/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AcoluzziiResults_NucleotideDiversity/AN_Ac
+
+
+
+#CODE
+
+vcftools --gzvcf $VCF --keep $KEEP  --window-pi 20000 --out $OUT
+
+
+
+
+
+## FOR ALL POPULATIONS
+#!/bin/bash
+#$ -cwd           # Set the working directory for the job to the current directory
+#$ -pe smp 1	  # Request 1 core
+#$ -l h_rt=240:0:0  # Request 240 hour runtime
+#$ -l h_vmem=64G   # Request 128GB RAM
+#$ -j y              # Combine the standard output and standard error stream
+#S -N CHROM_3L       # Give a specific name to the job
+#$ -o log_file/      # output log of each job
+
+
+
+# Command section
+module load gcc/8.2.0
+module load vcftools/0.1.16
+
+
+# Stop script if error occurs
+set -e
+
+mkdir -p /data3/scratch/bty155/Phase2/Nucleotide_Diversity/10May2024_Nucleotide_Diversity
+
+VCF=/data3/scratch/bty155/Phase2/ag1000g.phase2.ar1.pass.3L.vcf.gz
+
+OUT=/data3/scratch/bty155/Phase2/Nucleotide_Diversity/10May2024_Nucleotide_Diversity/All_samples
+
+
+#CODE
+
+vcftools --gzvcf $VCF  --window-pi 10000 --out $OUT
+

@@ -1,1 +1,84 @@
+## CALCUALTE ALLELE FREQUENCY PER POPULATION
 
+##CODE FOR MULTIPLE FILES USING BASH
+#!/bin/bash
+#$ -cwd           # Set the working directory for the job to the current directory
+#$ -pe smp 2      # Request 1 cores
+#$ -l h_rt=240:0:0  # Request 240 hour runtime
+#$ -l h_vmem=16G   # Request 32GB RAM
+#$ -j y              # Combine the standard output and standard error stream
+#S -N CHROM_3R       # Give a specific name to the job
+#$ -o log_file/      # output log of each job
+
+
+
+# Command section
+module load gcc/8.2.0
+module load vcftools/0.1.16
+#module load bcftools/1.16
+
+# Stop script if error occurs
+set -e
+
+
+
+VCF=/data3/scratch/bty155/Phase2/Chrom_3R/Split_vcf_3R_files/2024Dec23a_Results_Vcf_3R_files/Mayotte.vcf.gz
+
+OUT=/data3/scratch/bty155/Phase2/Chrom_3R/Allele_Frequency_3R/2024Dec23_AF_Results/MY
+
+
+#SELECT REGIONS THAT HAVE MORE THAN 2 ALLELES
+
+vcftools --gzvcf $VCF --freq2 --out $OUT --min-alleles 3
+
+
+
+
+## NEW VERSION - Sum all allele frequencies into columns
+#!/bin/bash
+#$ -cwd           # Set the working directory for the job to the current directory
+#$ -pe smp 1	  # Request 1 core
+#$ -l h_rt=240:0:0  # Request 240 hour runtime
+#$ -l h_vmem=32G   # Request 32GB RAM
+#$ -j y              # Combine the standard output and standard error stream
+#S -N CHROM_3R       # Give a specific name to the job
+#$ -o log_file/      # output log of each job
+
+
+
+# Command section
+module load gcc/12.1.0
+module load R/4.2.2
+#unload gcc
+
+# Stop script if error occurs
+set -e
+
+
+FRQ=/data3/scratch/bty155/Phase2/Chrom_3R/Allele_Frequency_3R/2024Dec23_AF_Results/1.frq
+
+OUT=/data3/scratch/bty155/Phase2/Chrom_3R/Allele_Frequency_3R/2024Dec23_AF_ColumnSums_3R/1.csv
+
+
+# R code
+Rscript - <<EOF
+library(readr)
+library(tidyr)
+library(stringr)
+
+# Read file into dataframe
+frq_data <- read_delim("$FRQ", delim ='\t')
+
+# Split the FREQ (<chr>) column by the tab character
+frq_data <- separate(frq_data, '{FREQ}', into = c("AF1", "AF2","AF3", "AF4"), sep = "\t")
+
+# Convert the column entries from character to numeric
+frq_data[, c("AF1", "AF2", "AF3", "AF4")] <- lapply(frq_data[, c("AF1", "AF2", "AF3", "AF4")], as.numeric)
+
+# Print column sums
+cat("Column sums:\n")
+print(colSums(frq_data[, c("AF1", "AF2", "AF3", "AF4")]))
+
+# Write output to CSV
+write.csv(frq_data, "$OUT", row.names = FALSE, quote = FALSE)
+EOF

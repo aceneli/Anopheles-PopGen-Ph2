@@ -1,9 +1,8 @@
 # Data Visualisation Codes
-## Notes: 
+## Note: 
 The data for these plots was downloaded from the MalariaGen website.<br/>
-The codes for different plots can be found in the different folders links below:
 
-### Folder with all codes
+### Folder with codes
 [ Folder link ](https://github.com/aceneli/Anopheles-mosquitoes-March-24/tree/main/Plink%20codes)<br/>
 
 ### A. PCA Plots

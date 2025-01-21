@@ -1,3 +1,5 @@
+## FOR ONE POPULATION
+
 #!/bin/bash
 #$ -cwd           # Set the working directory for the job to the current directory
 #$ -pe smp 2	  # Request 1 cores
@@ -31,4 +33,41 @@ OUT=/data3/scratch/bty155/Phase2/Chrom_3R/Split_vcf_3R_files/2024Dec23a_Results_
 bcftools view -S $SAMPL --force-samples $VCF >  $OUT
 
 mkdir -p /data3/scratch/bty155/Phase2/Chrom_3R/Split_vcf_3R_files/2024Dec23_Results_Vcf_3R_files
+
+## FOR MULTIPLE POPULATIONS
+
+#!/bin/bash
+#$ -cwd           # Set the working directory for the job to the current directory
+#$ -pe smp 2	  # Request 3 cores
+#$ -l h_rt=240:0:0  # Request 240 hour runtime
+#$ -l h_vmem=32G   # Request 64GB RAM
+#$ -j y              # Combine the standard output and standard error stream
+#$ -t 1-12           # No of text files for processing
+#S -N CHROM_3L       # Give a specific name to the job
+#$ -o log_file/      # output log of each job
+
+
+
+# Command section
+#module load gcc/8.2.0
+#module load vcftools/0.1.16
+module load bcftools/1.16
+
+# Stop script if error occurs
+set -e
+
+mkdir -p /data3/scratch/bty155/Phase2/CNV/2024Dec28_Results_Vcf_files
+
+LIST=/data/SBBS-FumagalliLab/mosquito_gan/DistanceMatrix_Ph2/2024-06-13-Scratch/txt_files/list_of_files.txt
+
+VCF=/data/SBBS-FumagalliLab/mosquito_gan/DistanceMatrix_Ph2/2024-06-13-Scratch/CNV/ag1000g.phase2.cnv.vcf.gz
+
+FILE=/data/SBBS-FumagalliLab/mosquito_gan/DistanceMatrix_Ph2/2024-06-13-Scratch/txt_files/$(sed -n "${SGE_TASK_ID}p" $LIST)
+
+OUT=/data3/scratch/bty155/Phase2/CNV/2024Dec28_Results_Vcf_files/${SGE_TASK_ID}.vcf.gz
+
+
+#CODE
+
+bcftools view -S $FILE --force-samples $VCF >  $OUT
 

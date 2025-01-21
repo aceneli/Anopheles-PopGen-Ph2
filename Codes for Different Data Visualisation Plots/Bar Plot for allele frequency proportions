@@ -1,0 +1,53 @@
+rm(list = ls())
+library(ggplot2)
+library(dplyr)
+
+df <- data.frame(LogFold = c(14.20, 14.00, 8.13, 5.3, 3.8, 4.9, 1.3, 13.3, 14.7, 12.2),
+                 Tissue = c("liver", "adrenal", "kidney", "heart", "limb", "adipose", "brown", "hypothalamus", "arcuate", "lung"))
+df1<-df%>%
+  arrange(desc(LogFold))
+
+ggplot(data=df1, aes(x=Tissue, y=LogFold, fill = Tissue)) +
+  geom_bar(stat="identity")+
+  scale_colour_gradient2()+
+  coord_flip()+
+  ylim(0, 15)+
+  scale_x_discrete(limits = df1$Tissue)+
+  theme_classic()
+
+#Data for Phase 2 malariagen
+Ancestry <- data.frame(Alleles = c("Biallelic", "Triallelic", "Tetrallelic"), 
+                       Freq = c(10640388, 2742722, 279094))
+
+
+
+#Plot
+ggplot(Ancestry, aes(x = reorder(paste(Alleles, " (", Freq, ")", sep = ""), Freq), y = Freq)) +
+  geom_bar(aes(fill = Alleles), stat = "identity") +
+  #geom_text(aes(label = Freq), hjust = -0.1, size = 3.5) +
+  scale_fill_viridis_d(option = "cividis") + # or "plasma", "inferno", "cividis" 
+  coord_flip() +
+  theme_classic() +
+  guides(fill = "none") +  # This line removes the legend
+  labs(x = "Multiallelic Sites (Counts)", y = "Frequency", fill = "Alleles") +
+  theme(plot.margin = margin(r = 40, l = 20, t = 20, b = 20, unit = "pt"))
+
+#New Data for Phase 2 malariagen
+Ancestry <- data.frame(Alleles = c("Biallelic", "Triallelic", "Tetrallelic"), 
+                       Freq = c(7897666, 2463628, 279094))
+
+#Plot
+ggplot(Ancestry, aes(x = reorder(paste(Alleles, " (", Freq, ")", sep = ""), Freq), y = Freq)) +
+  geom_bar(aes(fill = Alleles), stat = "identity") +
+  #geom_text(aes(label = Freq), hjust = -0.1, size = 3.5) +
+  scale_fill_viridis_d(option = "cividis") + # or "plasma", "inferno", "cividis" 
+  coord_flip() +
+  theme_classic() +
+  guides(fill = "none") +  # This line removes the legend
+  labs(x = "Multiallelic Sites (Counts)", y = "Frequency", fill = "Alleles") +
+  theme(plot.margin = margin(r = 40, l = 20, t = 20, b = 20, unit = "pt"))
+
+
+
+
+  

@@ -1,1 +1,79 @@
+rm(list = ls())
+
+library(tidyverse)
+
+#/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_TajimaD/10_TajimaD.Tajima.D
+#Read data into table
+taj.1 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_TajimaD/1_TajimaD.Tajima.D",header=T)
+taj.2 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_Ag_Ac/BF_Ac.Tajima.D",header=T)
+taj.2b <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_Ag_Ac/BF_Ag.Tajima.D",header=T)
+taj.3 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_TajimaD/3_TajimaD.Tajima.D",header=T)
+taj.4 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_TajimaD/4_TajimaD.Tajima.D",header=T)
+taj.5 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_TajimaD/5_TajimaD.Tajima.D",header=T)
+taj.6 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_TajimaD/6_TajimaD.Tajima.D",header=T)
+taj.7 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_TajimaD/7_TajimaD.Tajima.D",header=T)
+taj.8 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_TajimaD/8_TajimaD.Tajima.D",header=T)
+taj.9 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_Ag_Ac/GH_Ac.Tajima.D",header=T)
+taj.9b <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_Ag_Ac/GH_Ag.Tajima.D",header=T)
+taj.10 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_Ag_Ac/GN_Ac.Tajima.D",header=T)
+taj.10b <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_Ag_Ac/GN_Ag.Tajima.D",header=T)
+taj.11 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_TajimaD/11_TajimaD.Tajima.D",header=T)
+taj.12 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_TajimaD/12_TajimaD.Tajima.D",header=T)
+taj.13 <- read.table("/data3/scratch/bty155/Phase2/TajimaD/2024Jun25_Results_TajimaD/13.Tajima.D",header=T)
+
+
+#Add extra column with country name
+taj.1 <- cbind(taj.1, country = "AOg")
+taj.2 <- cbind(taj.2, country = "BFc")
+taj.2b <- cbind(taj.2b, country = "BFg")
+taj.3 <- cbind(taj.3, country = "CMg")
+taj.4 <- cbind(taj.4, country = "CIc")
+taj.5 <- cbind(taj.5, country = "EQg")
+taj.6 <- cbind(taj.6, country = "GAg")
+taj.7 <- cbind(taj.7, country = "GMgc")
+taj.8 <- cbind(taj.8, country = "GWgc")
+taj.9 <- cbind(taj.9, country = "GHc")
+taj.9b <- cbind(taj.9b, country = "GHg")
+taj.10 <- cbind(taj.10, country = "GNc")
+taj.10b <- cbind(taj.10b, country = "GNg")
+taj.11 <- cbind(taj.11, country = "KEgc")
+taj.12 <- cbind(taj.12, country = "UGg")
+taj.13 <- cbind(taj.13, country = "MYg")
+
+all_data<- rbind(taj.1, taj.2, taj.2b, taj.3, taj.4, taj.5, taj.6, taj.7, taj.8, taj.9, taj.9b, taj.10, taj.10b, taj.11, taj.12, taj.13)
+
+# Different outline color
+library(ggplot2)
+
+ch <- ggplot(all_data,aes(x=country,y=TajimaD,color=country))+
+  geom_boxplot(outlier.color="black")
+#stat_boxplot(geom="errorbar", width=0.5)
+
+ch
+
+# Create the boxplot with custom axis labels and title
+ch <- ggplot(all_data, aes(x=country, y=TajimaD, color=country)) +
+  geom_boxplot(outlier.color="black") +
+  labs(
+    title = "Tajima's D",
+    x = "Country",
+    y = "TajimaD"
+  ) +
+  theme_minimal() # Optional: use a minimal theme for a cleaner look
+
+# Add custom text annotation (example)
+ch <- ch + annotate("text", x = 2, y = max(all_data$PI) * 0.9, label = "Note: Outliers are shown in black", size = 0.5, color = "white")
+
+# Print the plot
+print(ch)
+############################################################################
+boxplot(TajimaD ~ country, data = all_data, ylab = "Diversity")
+
+boxplot(TajimaD ~ country, data = all_data, 
+        ylab = "Tajima's D",
+        main = "Tajima's D Plot",
+        col = rainbow(length(unique(all_data$country))),
+        notch = FALSE,
+        outline = TRUE)
+
 

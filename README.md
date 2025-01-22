@@ -1,6 +1,6 @@
 # Data Visualisation Codes
 ## Note: 
-The data (i.e. MalariaGen Phase 2 data) for these plots was downloaded from the MalariaGen website.<br/>
+The data (Phase 2) for these plots was downloaded from the MalariaGen website.<br/>
 
 ### Folder with codes
 [ Folder link ](https://github.com/aceneli/Anopheles-mosquitoes-March-24/tree/main/Plink%20codes)<br/>

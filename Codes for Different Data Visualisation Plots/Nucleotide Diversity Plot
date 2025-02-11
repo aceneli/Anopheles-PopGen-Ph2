@@ -3,55 +3,55 @@ rm(list = ls())
 library(tidyverse)
 #/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/BF_Ac_ND.windowed.pi
 #Read data into table
-pi.1 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/1_ND.windowed.pi",header=T)
-pi.2 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/BF_Ac_ND.windowed.pi",header=T)
-pi.2b <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/BF_Ag_ND.windowed.pi",header=T)
-pi.3 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/3_ND.windowed.pi",header=T)
-pi.4 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/4_ND.windowed.pi",header=T)
-pi.5 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/5_ND.windowed.pi",header=T)
-pi.6 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/6_ND.windowed.pi",header=T)
-pi.7 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/7_ND.windowed.pi",header=T)
-pi.8 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/8_ND.windowed.pi",header=T)
-pi.9 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/GH_Ac_ND.windowed.pi",header=T)
-pi.9b <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/GH_Ag_ND.windowed.pi",header=T)
-pi.10 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/GN_Ac_ND.windowed.pi",header=T)
-pi.10b <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/GN_Ag_ND.windowed.pi",header=T)
-pi.11 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/11_ND.windowed.pi",header=T)
-pi.12 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/12_ND.windowed.pi",header=T)
-pi.13 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Jun21_Results_NucleotideDiversity/13_ND.windowed.pi",header=T)
+pi.1 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AgambiaeResults_NucleotideDiversity/BF_Ag.windowed.pi",header=T)
+pi.2 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AgambiaeResults_NucleotideDiversity/CM_Ag.windowed.pi",header=T)
+pi.3 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AgambiaeResults_NucleotideDiversity/EQ_Ag.windowed.pi",header=T)
+pi.4 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AgambiaeResults_NucleotideDiversity/GA_Ag.windowed.pi",header=T)
+pi.5 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AgambiaeResults_NucleotideDiversity/GH_Ag.windowed.pi",header=T)
+pi.6 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AgambiaeResults_NucleotideDiversity/GN_Ag.windowed.pi",header=T)
+pi.7 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AgambiaeResults_NucleotideDiversity/MY_Ag.windowed.pi",header=T)
+pi.8 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AgambiaeResults_NucleotideDiversity/UG_Ag.windowed.pi",header=T)
+pi.9 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AcoluzziiResults_NucleotideDiversity/AN_Ac.windowed.pi",header=T)
+pi.10 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AcoluzziiResults_NucleotideDiversity/BF_Ac.windowed.pi",header=T)
+pi.11 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AcoluzziiResults_NucleotideDiversity/CI_Ac.windowed.pi",header=T)
+pi.12 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AcoluzziiResults_NucleotideDiversity/GH_Ac.windowed.pi",header=T)
+pi.13 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AcoluzziiResults_NucleotideDiversity/GN_Ac.windowed.pi",header=T)
+pi.14 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AgambiaecoluzziiResults_NucleotideDiversity/GM_Agc.windowed.pi",header=T)
+pi.15 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AgambiaecoluzziiResults_NucleotideDiversity/GW_Agc.windowed.pi",header=T)
+pi.16 <- read.table("/data3/scratch/bty155/Phase2/Nucleotide_Diversity/2024Aug15_AgambiaecoluzziiResults_NucleotideDiversity/KE_Agc.windowed.pi",header=T)
 
 
-#Add extra column with country name
-pi.1 <- cbind(pi.1, country = "AOg")
-pi.2 <- cbind(pi.2, country = "BFc")
-pi.2b <- cbind(pi.2b, country = "BFg")
-pi.3 <- cbind(pi.3, country = "CMg")
-pi.4 <- cbind(pi.4, country = "CIc")
-pi.5 <- cbind(pi.5, country = "EQg")
-pi.6 <- cbind(pi.6, country = "GAg")
-pi.7 <- cbind(pi.7, country = "GMgc")
-pi.8 <- cbind(pi.8, country = "GWgc")
-pi.9 <- cbind(pi.9, country = "GHc")
-pi.9b <- cbind(pi.9b, country = "GHg")
-pi.10 <- cbind(pi.10, country = "GNc")
-pi.10b <- cbind(pi.10b, country = "GNg")
-pi.11 <- cbind(pi.11, country = "KEgc")
-pi.12 <- cbind(pi.12, country = "UGg")
-pi.13 <- cbind(pi.13, country = "MYg")
+#Add extra column with population name
+pi.1 <- cbind(pi.1, population = "BFg")
+pi.2 <- cbind(pi.2, population = "CMg")
+pi.3 <- cbind(pi.3, population = "EQg")
+pi.4 <- cbind(pi.4, population = "GAg")
+pi.5 <- cbind(pi.5, population = "GHg")
+pi.6 <- cbind(pi.6, population = "GNg")
+pi.7 <- cbind(pi.7, population = "MYg")
+pi.8 <- cbind(pi.8, population = "UGg")
+pi.9 <- cbind(pi.9, population = "ANc")
+pi.10 <- cbind(pi.10, population = "BFc")
+pi.11 <- cbind(pi.11, population = "CIc")
+pi.12 <- cbind(pi.12, population = "GHc")
+pi.13 <- cbind(pi.13, population = "GNc")
+pi.14 <- cbind(pi.14, population = "GMgc")
+pi.15 <- cbind(pi.15, population = "GWgc")
+pi.16 <- cbind(pi.16, population = "KEgc")
 
-all_data<- rbind(pi.1, pi.2, pi.2b, pi.3, pi.4, pi.5, pi.6, pi.7, pi.8, pi.9, pi.9b, pi.10, pi.10b, pi.11, pi.12, pi.13)
+all_data<- rbind(pi.1, pi.2, pi.3, pi.4, pi.5, pi.6, pi.7, pi.8, pi.9, pi.10, pi.11, pi.12, pi.13, pi.14, pi.15, pi.16)
 
 # Different outline color
 library(ggplot2)
 
-ch <- ggplot(all_data,aes(x=country,y=PI,color=country))+
-  geom_boxplot(outlier.color="black")
+ch <- ggplot(all_data,aes(x=population,y=PI,color=population))+
+  geom_boxplot(outlier.shape = NA)
 
 ch
 
 #no labels on x-axis
-ch <- ggplot(all_data, aes(x=country, y=PI, color=country)) +
-  geom_boxplot(outlier.color="black") +
+ch <- ggplot(all_data, aes(x=population, y=PI, color=population)) +
+  geom_boxplot(outlier.shape = NA) +
   labs(
     title = "Nucleotide Diversity",
     x = "",
@@ -62,6 +62,105 @@ ch <- ggplot(all_data, aes(x=country, y=PI, color=country)) +
 
 ch
 
+
+
+
+
+
+
+# Create the boxplot with custom axis labels and title
+ch <- ggplot(all_data, aes(x=population, y=PI, color=population)) +
+  geom_boxplot(outlier.color="black") +
+  labs(
+    title = "Nucleotide Diversity",
+    x = "population",
+    y = "Diversity"
+  ) +
+  theme_minimal() # Optional: use a minimal theme for a cleaner look
+
+# Add custom text annotation (example)
+ch <- ch + annotate("text", x = 2, y = max(all_data$PI) * 0.9, label = "Note: Outliers are shown in black", size = 0.5, color = "white")
+
+# Print the plot
+print(ch)
+
+
+
+
+
+
+############################################################################
+boxplot(PI ~ population, data = all_data, ylab = "Diversity")
+
+boxplot(PI ~ population, data = all_data, 
+        ylab = "Diversity",
+        main = "Nucleotide Diversity Plot",
+        col = rainbow(length(unique(all_data$population))),
+        notch = FALSE,
+        outline = FALSE)
+
+
+library(ggplot2)
+
+# Create the boxplot without outliers and with a custom outline color
+ch <- ggplot(all_data, aes(x = population, y = PI, color = population)) +
+  geom_boxplot(outlier.shape = NA, color = "blue")  # Set outline color to blue
+
+# Display the plot
+ch
+
+library(ggplot2)
+
+ch <- ggplot(all_data,aes(x=population,y=PI,color=population))+
+  geom_boxplot(outlier.shape = NA)
+
+ch
+
+library(ggplot2)
+
+ch <- ggplot(all_data,aes(x=population,y=PI,color=population))+
+  geom_boxplot(outlier.shape = NA)
+
+ch
+
+# Create the boxplot
+boxplot(PI ~ population, data = all_data, 
+        ylab = "Diversity",
+        xlab = "",  # Remove label from x-axis
+        main = "Nucleotide Diversity Plot",
+        col = rainbow(length(unique(all_data$population))),
+        notch = FALSE,
+        outline = FALSE,
+        names = FALSE)  # Remove labels for bars on x-axis
+
+# Add a legend
+legend("topright",  # Position of the legend
+       legend = unique(all_data$population),  # Labels for the legend
+       fill = rainbow(length(unique(all_data$population))),  # Colors for the legend
+       title = "Population")  # Title for the legend
+
+#########################################################################################
+# Ensure the population factor is ordered correctly
+all_data$population <- factor(all_data$population, levels = unique(all_data$population))
+
+# Adjust plot parameters to allow plotting outside the plot region
+par(xpd = TRUE, mar = c(5, 4, 4, 8))  # Increase the right margin
+
+# Create the boxplot
+boxplot(PI ~ population, data = all_data, 
+        ylab = "Diversity",
+        main = "Nucleotide Diversity Plot",
+        col = rainbow(length(unique(all_data$population))),
+        notch = FALSE,
+        outline = FALSE,
+        names = FALSE) #remove labels for bars on x-axis
+
+# Add a legend outside the plot area
+legend("topright", 
+       inset = c(-0.2, 0),  # Adjust the inset to move the legend outside
+       legend = levels(all_data$population),  # Use levels to ensure correct order
+       fill = rainbow(length(unique(all_data$population))), 
+       title = "Population")
 
 
 
@@ -98,6 +197,14 @@ boxplot(PI ~ country, data = all_data,
         col = rainbow(length(unique(all_data$country))),
         notch = FALSE,
         outline = TRUE)
+# Calculate means for each country
+means <- tapply(all_data$PI, all_data$country, mean, na.rm = TRUE)
+
+# Add means to the plot
+points(1:length(means), means, pch = 18, col = "black", cex = 1.5)
+
+# Add a legend
+legend("topright", legend = "Mean", pch = 18, col = "black")
 
 
 

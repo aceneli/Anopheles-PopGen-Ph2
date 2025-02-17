@@ -1,0 +1,91 @@
+rm(list = ls())
+
+# Load the distance matrix data
+dist_matrix <- read.table("/data/SBBS-FumagalliLab/mosquito_gan/DistanceMatrix_Ph2/2024-02-24-MDSPlot/dist_matrix.mdist", header = FALSE)
+sample_ids <- read.table("/data/SBBS-FumagalliLab/mosquito_gan/DistanceMatrix_Ph2/2024-02-24-MDSPlot/Sampleids_vs_Countries.txt", header = FALSE)
+
+head(dist_matrix, 4)
+
+
+head(sample_ids, 4)
+
+# Perform PCA
+pca <- cmdscale(dist_matrix, eig = TRUE, k = 2)
+
+
+
+# Create a plot
+plot(pca$points[, 1], pca$points[, 2], 
+     xlab = "MDS1", ylab = "MDS2",
+     main = "Multidimensional Scale (MDS) Plot",
+     pch = 20, 
+     cex = 0.8)
+text(pca$points[, 1], pca$points[, 2], 
+     labels = sample_ids[, 2], 
+     cex = 0.4, 
+     pos = 3)
+
+####################################################################################################################
+# Perform PCA
+pca <- cmdscale(dist_matrix, eig = TRUE, k = 2)
+
+# Define colors (assuming you want to color by some grouping variable)
+# Replace 'group_variable' with your actual grouping variable
+colors <- rainbow(length(unique(sample_ids$V2)))
+color_vector <- colors[as.factor(sample_ids$V2)]
+
+# Create a plot with colored points
+plot(pca$points[, 1], pca$points[, 2], 
+     xlab = "MDS1", ylab = "MDS2",
+     main = "Multidimensional Scale (MDS) Plot",
+     pch = 20, 
+     cex = 0.8,
+     col = color_vector)  # Add color to points
+
+# Add text labels
+text(pca$points[, 1], pca$points[, 2], 
+     labels = sample_ids[, 2], 
+     cex = 0.4, 
+     pos = 3,
+     col = color_vector)  # Add color to labels
+
+#Add a legend
+legend("topleft", 
+       legend = unique(sample_ids$V2),
+       col = colors,
+       pch = 20,
+       cex = 0.8,
+       title = "Groups")
+
+
+# Create a color palette and assign colors to samples
+colors <- rainbow(length(unique(sample_ids$V2)))
+color_vector <- colors[as.factor(sample_ids$V2)]
+
+# Set up the plotting area with extra space for the legend
+par(mar = c(5, 4, 4, 2) + 0.1, xpd = TRUE)
+
+# Create a plot with colored points
+plot(pca$points[, 1], pca$points[, 2], 
+     xlab = "MDS1", ylab = "MDS2",
+     main = "Multidimensional Scale (MDS) Plot",
+     pch = 20, 
+     cex = 0.8,
+     col = color_vector)
+
+# Add text labels
+text(pca$points[, 1], pca$points[, 2], 
+     labels = sample_ids[, 2], 
+     cex = 0.4, 
+     pos = 3,
+     col = color_vector)
+
+# Add a vertical legend outside the plot
+legend("topright", 
+       legend = unique(sample_ids$V2),
+       col = unique(color_vector),
+       pch = 20,
+       cex = 0.8,
+       inset = c(-0.2, 0),
+       xpd = TRUE,
+       bty = "n")

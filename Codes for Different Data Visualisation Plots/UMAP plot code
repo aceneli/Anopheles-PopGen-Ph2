@@ -1,0 +1,80 @@
+import pandas as pd
+import seaborn as sns
+import scipy
+import numpy as np
+import matplotlib.pyplot as plt
+import umap.umap_ as umap
+
+# Read in the file (mdist file created after applying to PLINK distance matrix function on genomic data)
+
+mdist_file = 'dist_matrix.mdist'file path
+mdist_data = pd.read_table(mdist_file, sep='\\s+', header=None)
+
+# Prepare the data for UMAP
+distance_matrix = mdist_data.iloc[:, 1:].values
+
+# Create the UMAP object and fit the data
+reducer = umap.UMAP()
+embedding = reducer.fit_transform(distance_matrix)
+
+# Plot the UMAP
+plt.figure(figsize=(10, 8))
+plt.scatter(embedding[:, 0], embedding[:, 1], s=2)
+plt.title('UMAP Plot')
+plt.xlabel('UMAP 1')
+plt.ylabel('UMAP 2')
+plt.show()
+
+#UMAP model variable generation and metric processing
+umap_model = umap.UMAP(metric='euclidean')
+umap_embedding = umap_model.fit_transform(distance_matrix)
+
+# Read in the sample file
+sample_ids = pd.read_table('dist_matrix.mdist.id', header=None)[0]
+
+#Include sample id to umap embedding table
+umap_df = pd.DataFrame(data=umap_embedding, columns=['x', 'y'])
+umap_df['sample_id'] = sample_ids
+
+# Read the .mdist.id file to get population names
+populations = pd.read_table("/data/home/bty155/ondemand/data/Phase_2/MosquitoPh2_Sampleids_vs_Populations2.txt")
+
+import matplotlib.pyplot as plt
+#Merge tables
+# If you have population labels, e.g. in a 'population' column
+umap_df = umap_df.join(populations.set_index('sample_id'), on='sample_id', how='left')
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib.widgets import TextBox
+
+# Create a figure and axis
+fig, ax = plt.subplots(figsize=(12, 10))
+
+# Plot the scatter plot
+scatter = sns.scatterplot(data=umap_df, x="x", y="y", hue=umap_df['population'], s=50, ax=ax)
+
+ax.set_title('UMAP Embedding Coloured by Population', fontsize=16)
+ax.set_xlabel('UMAP 1', fontsize=14)
+ax.set_ylabel('UMAP 2', fontsize=14)
+
+# Move the legend outside the plot
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0)
+
+# Adjust the layout to make room for the legend
+plt.tight_layout()
+
+# Create a dictionary to store the scatter plot points for each population
+population_points = {pop: scatter.get_children()[i] for i, pop in enumerate(umap_df['population'].unique())}
+
+# Function to update visibility of points
+def update_visibility(population):
+    for pop, points in population_points.items():
+        points.set_visible(pop == population if population else True)
+    plt.draw()
+
+
+
+
+plt.show()
+
